@@ -1,0 +1,345 @@
+
+    <div class="container-fluid pt-3">
+        <%  for (let error of errors) { %>
+            <div class="alert alert-danger" role="alert">
+            <%= error.message %>
+           </div>
+             <% } %>
+             <% if(message.success){ %>
+               <div class="alert alert-success"  role="alert">
+                   <%= message.success %>
+               </div>
+               <% } %>
+               <h3 class="">Vendors Summary&nbsp;</h3>
+               <div class="row mt-3 mb-4 mx-0 removable">
+                 <div class="card-group w-100">
+                   <div class="card border shadow-none">
+                     <div class="card-body">
+                       <div class="row">
+                         <div class="col d-flex align-items-center">
+                           <h5 class="card-title text-uppercase text-muted mb-0">
+                             Total Vendors
+                           </h5>
+                           <span
+                             class="badge badge-secondary border ml-2 text-md font-weight-bold mb-0"
+                             >+ <%= total_vendors.length %></span
+                           >
+                         </div>
+                       </div>
+                       <p class="mt-2 text-dark font-weight-700 display-3 mb-0"><%= total_vendors.length %></p>
+                     </div>
+                   </div>
+                  
+                 </div>
+               </div>
+        <div class="row removable">
+            <div class="col-lg-12">
+                <div class="row removable">
+                    <div class="col-lg-4">
+                        <div class="">
+                        </div>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                            New Vendor
+                        </button>
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <form action="add-vendor" method="POST">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">New Vendor</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">X</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        
+                                            <div class="mb-3">
+                                                <label for="vendorName" class="form-label">Vendor Name (required)  </label>
+                                                <input type="text" class="form-control" id="vendorName" name="vendorName" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="address" class="form-label">Address</label>
+                                                <input type="text" class="form-control" id="address" name="address">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="vatNumber" class="form-label">VAT Number</label>
+                                                <input type="text" class="form-control" id="vatNumber" name="vatNumber">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="contactPerson" class="form-label">Contact Person  (required)</label>
+                                                <input type="text" class="form-control" id="contactPerson" name="contactPerson" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="phoneNumber" class="form-label">Phone Number  (required)</label>
+                                                <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="email" class="form-label">Email address</label>
+                                                <input type="email" class="form-control" id="email" name="email">
+                                            </div>
+                                        
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Add Vendor</button>
+                                    </div>
+                                </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4"></div>
+                    <div class="col-lg-4"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row removable">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header border-0">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <div class="form-group mb-0">
+                                    <div class="input-group">
+                                        <button type="button" class="btn" data-toggle="modal" data-target="#exampleModalSearch">
+                                            <i class="fas fa-search"></i
+                                                > Search
+                                         </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col text-right">
+                                <button  data-toggle="modal" data-target="#exampleModalExport" class="btn btn-sm btn-primary">Export</button>
+                              </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table align-items-center table-flush" >
+                            <thead class="thead-light">
+                                <tr>
+                                    <th scope="col">Company</th>
+                                    <th scope="col">Primary contact</th>
+                                    <th scope="col">Primary email</th>
+                                    <th scope="col">Phone</th>
+                                    <th scope="col">Date Created</th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% if (data.length > 0) { %>
+                                    <% for (let dat of data) { %>
+                                <tr>
+                                                                        <td>
+                                        <span><%= dat.company_name %></span>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <span class="ml-2"><%= dat.contact_person %></span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <span class="ml-2"><%= dat.email %></span>
+                                        </div>
+                                    </td>
+                                    <td><%= dat.phone_number %></td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <span class="ml-2"><%= moment(dat.date_created).format('Do MMMM, YYYY') %></span>
+                                        </div>
+                                    </td>
+                                    <td class="table-actions">
+                                        <button class="table-action btn btn-sm btn-block btn-neutral expandBtn"  onclick="delete_vendor('<%= dat.vendor_id %>','<%= dat.company_name %>')" data-toggle="modal" data-target="#exampleModal2" data-original-title="Edit product">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                        <button class="table-action btn btn-sm btn-block btn-neutral"  onclick="edit_vendor('<%= dat.vendor_id %>','<%= dat.company_name %>','<%= dat.physical_address %>','<%= dat.vat_number %>','<%= dat.contact_person %>','<%= dat.phone_number %>','<%= dat.email %>')" data-toggle="modal" data-target="#exampleModal1" data-original-title="Edit product">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <% } %>
+                                <% } %>
+                               
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+        
+            </div>
+        </div>
+    </div>
+    <div class="row removable">
+        <div class="col-lg-4">
+            <nav aria-label="..." class="">
+                <ul class="pagination">
+                    <li class="page-item">
+                        
+                        <% if (page > 1) { %>
+                          <a class="page-link" href="/vendors?page=<%= page - 1 %>">
+                            <i class="fa fa-angle-left"></i>
+                            <span class="sr-only">Previous</span>
+                          </a>
+                      <% } %>
+                    </li>
+                    <li class="page-item">
+                       
+                        <% if (data.length === 10) { %>
+                          <a class="page-link" href="/vendors?page=<%= page + 1 %>">
+                            <i class="fa fa-angle-right"></i>
+                            <span class="sr-only">Next</span>
+                          </a>
+                      <% } %>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#"><%= page %></a>
+                        </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+               
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Vendor</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">X</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                   
+            </div>
+        </div>
+    </div>  
+    </div> 
+
+      <div class="modal fade" id="exampleModalSearch"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" style="max-width: 960px;
+        width: 100%;" role="document">
+            <div class="modal-content" >
+                <div class="modal-header">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"
+                              ><i class="fas fa-search"></i
+                            ></span>
+                          </div>
+                          <input
+                            class="form-control"
+                            placeholder="Search"
+                            type="text"
+                            id="searchInput"
+                          />
+                      </div>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <% if (vendors.length > 0) { %>
+                        <table class="table align-items-center table-flush" id="table">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th scope="col">Company</th>
+                                    <th scope="col">Primary contact</th>
+                                    <th scope="col">Primary email</th>
+                                    <th scope="col">Phone</th>
+                                    <th scope="col">Date Created</th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                    <% for (let dat of vendors) { %>
+                                <tr>
+                                                                        <td>
+                                        <span><%= dat.company_name %></span>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <span class="ml-2"><%= dat.contact_person %></span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <span class="ml-2"><%= dat.email %></span>
+                                        </div>
+                                    </td>
+                                    <td><%= dat.phone_number %></td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <span class="ml-2"><%= moment(dat.date_created).format('Do MMMM, YYYY') %></span>
+                                        </div>
+                                    </td>
+                                    <td class="table-actions">
+                                        <button class="table-action btn btn-sm btn-block btn-neutral expandBtn"  onclick="current_vendor('<%= dat.vendor_id %>')" data-toggle="modal" data-target="#exampleModal2" data-original-title="Edit product">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                        <button class="table-action btn btn-sm btn-block btn-neutral"  onclick="current_vendor('<%= dat.vendor_id %>')" data-toggle="modal" data-target="#exampleModal1" data-original-title="Edit product">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <% } %>
+                               
+                            </tbody>
+                        </table>
+                        <% } else { %>
+                            <div style="padding: auto;margin:auto;position: relative;left:40%"><p>No Vendors to show!</p></div>
+                            
+                          <% } %> 
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>  
+  
+    <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+               
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Delete Vendor</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">X</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                   
+            </div>
+        </div>
+    </div>   
+    </div>
+    <div class="modal fade" id="exampleModalExport"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <form action="/download8" method="get">
+            <div class="modal-content" >
+                <div class="modal-header">
+                  
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="export_type" class="form-label"
+                          >Export As</label
+                        >
+                        <select
+                          class="form-select"
+                          id="export_type"
+                          name="export_type"
+                          required
+                        >
+                          <option value="pdf">PDF</option>
+                          <option value="excel">Excel</option>
+                        </select>
+                      </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-secondary">Export</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+            </form>
+        </div>
+      </div>

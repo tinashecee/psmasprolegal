@@ -1,0 +1,435 @@
+
+<div class="container-fluid pt-3">
+  <%  for (let error of errors) { %>
+    <div class="alert alert-danger" role="alert">
+    <%= error.message %>
+   </div>
+     <% } %>
+     <% if(message.success){ %>
+       <div class="alert alert-success"  role="alert">
+           <%= message.success %>
+       </div>
+       <% } %>
+    <div class="row removable">
+      <div class="col-lg-12">
+        <h1 class=""><%= data[0].case_name %></h1>
+      </div>
+    </div>
+    <div class="row removable">
+      <div class="col-lg-4">
+        <div class="card">
+          <div class="card-header border-0 pb-0">
+            <div class="card">
+             
+              <div class="card-body text-left">
+                <div class="accordion p-0" id="accordionExample">
+                  <div class="card shadow-none mb-0">
+                    <div
+                      class="card-header px-0"
+                      id="headingOne"
+                      data-toggle="collapse"
+                      data-target="#collapseOne"
+                      aria-expanded="true"
+                      aria-controls="collapseOne"
+                    >
+                      <h5 class="mb-0">Case Description</h5>
+                    </div>
+                    <div
+                      id="collapseOne"
+                      class="collapse show"
+                      aria-labelledby="headingOne" 
+                      data-parent="#accordionExample"
+                      style=""
+                    >
+                      <div class="card-body px-0">
+                        <p>
+                          <%= data[0].notes %>
+                        </p>
+                        <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal5"><i class="fa fa-edit"></i
+                          ></button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-body pt-0 pb-2 px-0">
+                    <div
+                      class="border-bottom border-top d-flex align-items-center justify-content-between px-4 py-2"
+                    >
+                      <div class="d-flex align-items-center">
+                        <i class="fa text-primary text-lg fa-cogs"></i>
+                        <div class="ml-3">
+                          <h5 class="mb-0">Law Firm</h5>
+                          <p class="text-sm mb-0"><%= data[0].law_firm %></p>
+                        </div>
+                      </div>
+                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal1"
+                        ><i class="fa fa-edit"></i
+                      ></button>
+                    </div>
+                    <div
+                      class="border-bottom d-flex align-items-center justify-content-between px-4 py-2"
+                    >
+                      <div class="d-flex align-items-center">
+                        <i class="fa text-primary fa-clock"></i>
+                        <div class="ml-3">
+                          <h5 class="mb-0">Start Date</h5>
+                          <p class="text-sm mb-0"><%= moment(data[0].start_date).format('Do MMMM, YYYY') %></p>
+                        </div>
+                      </div>
+                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal3"
+                        ><i class="fa fa-edit"></i
+                      ></a>
+                    </div>
+                    <div
+                      class="border-bottom d-flex align-items-center justify-content-between px-4 py-2"
+                    >
+                      <div class="d-flex align-items-center">
+                        <i class="fa text-primary text-lg fa-user"></i>
+                        <div class="ml-3">
+                          <h5 class="mb-0">Case Administrator</h5>
+                          <p class="text-sm mb-0">
+                            <%= data[0].staff_members %>
+                          </p>
+                        </div>
+                      </div>
+                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal7"
+                        ><i class="fa fa-edit"></i
+                      ></button>
+                    </div>
+                    <div
+                      class="d-flex align-items-center justify-content-between px-4 py-2"
+                    >
+                      <div class="d-flex align-items-center">
+                        <i class="fa fa-star text-primary text-lg"></i>
+                        <div class="ml-3">
+                          <h5 class="mb-0">Status</h5>
+                          <p class="text-sm mb-0"><%= data[0].status %></p>
+                        </div>
+                      </div>
+                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal2"
+                        ><i class="fa fa-edit"></i
+                      ></button>
+                    </div>
+                    <div
+                      class="d-flex align-items-center justify-content-between px-4 py-2"
+                    >
+                    <% if(user_role == 'Admin') { %>
+                    <button type="button" class="btn btn-danger"  data-toggle="modal" data-target="#exampleModal9">Delete Case<i class="fa fa-trash"></i
+                      ></button>
+                      <% } %>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card draggable" draggable="true">
+          <div>
+          <button type="button" class="btn btn-primary draggable" data-toggle="modal" data-target="#exampleModal6" draggable="true">
+            Add Case Update
+        </button>
+      </div>
+      <br></br>
+          <div class="card-body pt-0 pb-2 px-0">
+            <% if(data[0].updates != null) { %>
+            <% for (let dat of data[0].updates) { %>
+              <div class="border-bottom border-top d-flex align-items-center justify-content-between px-4 py-2">
+                  <div class="d-flex align-items-center">
+                      <i class="fa fa-file text-primary text-lg"></i>
+                      <div class="ml-3">
+                          <h5 class="mb-0"> <%= dat.desc %> </h5>
+                          <p class="text-sm mb-0"> <%= dat.comms %> </p>
+                          <p class="text-sm mb-0"><%= moment(dat.updated_on).format('Do MMMM, YYYY') %></p>
+                      </div>
+                  </div>
+                  <a href="javascript:;"><i class="fa fa-chevron-right text-light"></i></a>
+              </div>
+              <% } %>
+              <% } %>
+          </div>
+      </div>
+      </div>
+      <div class="col-lg-8">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="card-title">PDF Preview</h5>
+          </div>
+          <div class="card-body">
+            <div class="embed-responsive embed-responsive-16by9">
+              <embed
+              id="embed-pdf"
+                class="embed-responsive-item"
+                type="application/pdf"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row removable">
+          <div class="col-lg-12"></div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <h5 class="card-title">Attachments</h5>
+            <form action="/upload-case?id=<%= id %>" method="post" enctype="multipart/form-data">
+            <input id='files' name="avatar" class="btn btn-primary" type="file" >
+            <input class="btn btn-primary" type="submit">
+          </form>
+          </div>
+          <% if(data[0].attachments != null) { %>
+          <% if(data[0].attachments.length != 0) { %>
+                    <ul class="list-group list-group-flush">
+                      <% for (let dat of data[0].attachments) { %>
+                        <li class="list-group-item">
+                          <div class="row align-items-center">
+                            <div class="col-md-1">
+                            <button type="button" class="btn btn-primary" onclick="changeSrc('<%= dat %>')"
+                              ><i class="fa fa-eye"></i
+                            ></button>
+                          </div>
+                          <div class="col-md-1"></div>
+                            <div class="col-md-8">
+                              
+                              <h6 class="card-subtitle mb-2 text-muted">File Name</h6>
+                              <p class="card-text"><%= dat %></p>
+                            </div>
+                          <div class="col-md-1">
+                            <% if(user_role == 'Admin') { %>
+                          <button class="btn  btn-danger" onclick="deleteFile('<%= dat %>' , '<%= id %>')"  data-toggle="modal" data-target="#exampleModal8" data-original-title="Edit product">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                        <% } %>
+                          </div>
+                            
+                          
+                          </div>
+                        </li>
+            <% } %>
+          </ul>
+          <% } %>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <form action='update-lawfirm?id=<%= id %>' method="POST">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit Law Firm</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">X</span>
+                </button>
+            </div>
+            <div class="modal-body">
+              <div class="col-md-12">
+                <label for="law-firm" class="form-label">Law Firm</label>
+                <select class="form-select" id="law_firm" name="law_firm" required="">
+                  <option value="">Select a Law Firm</option>
+                  <%  for (let dat of dataA) { %>
+                  <option value="<%= dat.name %>"><%= dat.name %></option>
+                  <% } %>
+              </select>
+            </div>              
+               
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form> 
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+          <form action='update-case-status?id=<%= id %>' method="POST">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Edit Status</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">X</span>
+              </button>
+          </div>
+          <div class="modal-body">
+               
+            <div class="col-md-12">
+              <label for="status" class="form-label">Status</label>
+              <select class="form-select" id="status" name="status" required="">
+                <% for (let dat of case_status) { %>                   
+                  <option value="<%= dat.case_status_name %>"><%= dat.case_status_name %></option>
+                  <% } %>
+              </select>
+          </div>            
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+      </form> 
+      </div>
+</div>
+</div>
+<div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+          <form action='update-case-startdate?id=<%= id %>' method="POST">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Edit Start Date</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">X</span>
+              </button>
+          </div>
+          <div class="modal-body">
+               
+
+
+
+<div class="col-md-12">
+  <label for="start-date" class="form-label">Start Date</label>
+  <input type="date" class="form-control" id="start_date" name="start_date" required="">
+</div>
+                     
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+      </form> 
+      </div>
+</div>
+</div>
+<div class="modal fade" id="exampleModal5" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+          <form action='update-case-description?id=<%= id %>' method="POST">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Edit Description</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">X</span>
+              </button>
+          </div>
+          <div class="modal-body">
+               
+
+
+
+<div class="col-md-12">
+  <label for="description" class="form-label">Description</label>
+  <input type="text" class="form-control" id="description" name="description" required="">
+</div>
+                     
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+      </form> 
+      </div>
+</div>
+</div>
+<div class="modal fade" id="exampleModal6" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+          <form action='update-case-updates?id=<%= id %>' method="POST">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Add Update</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">X</span>
+              </button>
+          </div>
+          <div class="modal-body">
+               
+
+
+
+<div class="col-md-12">
+  <label for="description" class="form-label">Heading</label>
+  <input type="text" class="form-control" id="description" name="description" required="">
+</div>
+
+              
+<div class="col-md-12">
+  <label for="comments" class="form-label">Comments</label>
+  <textarea class="form-control" id="comments" name="comments"></textarea>
+</div>     
+<div class="col-md-12">
+  <label for="case-update-date">Date</label>
+  <input type="date" name="case_update_date" class="form-control" id="case-update-date">
+</div>  
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+      </form> 
+      </div>
+</div>
+</div>
+<div class="modal fade" id="exampleModal7" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+          <form action='update-case-members?id=<%= id %>' method="POST">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Update Case Administrator</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">X</span>
+              </button>
+          </div>
+          <div class="modal-body">
+<div class="col-md-12">
+  <label for="members" class="form-label">Case Administrator</label>
+  <select class="form-select" id="members" name="staff_members" required="">
+    <% for (let dat of users) { %>
+        <option value="<%= dat.name %>"><%= dat.name %></option>
+        <% } %>
+</select>
+</div>
+</div>  
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+      </form> 
+      </div>
+</div>
+</div>
+<div class="modal fade" id="exampleModal8" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Delete File</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">X</span>
+              </button>
+          </div>
+          <div class="modal-body">
+             
+          </div>
+        
+      </div>
+  </div>
+</div>   
+<div class="modal fade" id="exampleModal9" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+         
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to Delete Case?</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">X</span>
+              </button>
+          </div>
+          <div class="modal-body">
+            <form  action="/delete-case?id=<%= data[0].case_id %>" method="POST">
+              <div class="mb-3">
+                                   
+                              <div class="mb-3">
+                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                  <button type="submit" class="btn btn-primary">Delete</button>
+                              </div>
+                          </form>   
+      </div>
+  </div>
+</div>   
+</div>

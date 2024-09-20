@@ -1,0 +1,634 @@
+
+    <div class="container-fluid pt-3">
+      <%  for (let error of errors) { %>
+        <div class="alert alert-danger" role="alert">
+        <%= error.message %>
+       </div>
+         <% } %>
+         <% if(message.success){ %>
+           <div class="alert alert-success"  role="alert">
+               <%= message.success %>
+           </div>
+           <% } %>
+        <div class="row removable">
+            <div class="col-lg-12">
+                <h1 class="">BUDGET&nbsp;</h1>
+                <h1 class="">&nbsp;</h1>
+                <div class="row removable">
+                    <div class="col-12">
+                        <div class="card-deck">
+
+
+                            <!-- Username card -->
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row removable">
+                    <div class="col-lg-12">
+                        <div class="row removable">
+                          <div class="col-lg-6">
+                            <div class="card bg-gradient-default">
+                                <div class="card-body">
+                                    <div class="mb-2">
+                                        <p class="text-white">Budget</p>
+                                        <% if(data[0]) { %>
+                                        <sup class="text-white">Total Budget </sup> <span class="h2 text-white"><%= dollarUS.format(data[0].amount) %></span><br>
+                                        <sup class="text-white">Period </sup> <span class="h4 text-white"><%= moment(data[0].start_date).format('Do MMMM, YYYY') %> - <%= moment(data[0].end_date).format('Do MMMM, YYYY') %></span>
+                                        <div class="text-light mt-2 text-sm">Your current balance</div>
+                                        <span class="h2 text-white"><%= dollarUS.format(current_balance) %></span>
+                                        <% } %>
+                                    </div>
+                                    <button class="btn btn-sm btn-block btn-neutral" data-toggle="modal" data-target="#exampleModal1">Add Budget</button>
+                                </div>
+                                <div class="card-body">
+                                    <% if (data[0]) { %>
+                                    <button type="button" class="btn btn-primary btn-sm btn-neutral " data-toggle="modal" data-target="#exampleModal2"
+                    >Update Budget<i class="fa fa-edit"></i
+                  ></button>
+                  <% } %>
+                            </div>
+                        </div>
+                    </div>
+                            <div class="col-lg-6">
+                                <div class="card bg-gradient-primary">
+                                    <div class="card-body">
+                                        <div class="mb-2">
+                                            <p class="text-white">Total Expenses</p>
+                                            <sup class="text-white"></sup> <span class="h2 text-white"><%= dollarUS.format(total_expenditure) %></span>
+                                           
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col"><small class="text-light">Budget left: <%= expenditure_left %>%</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                          
+                    </div>
+                </div>
+                <% if(data[0]) { %>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                    Add Budget Line </button>   
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <form action="/add-line-budget" method="POST">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Add Budget</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true"></span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="mb-2">
+                                                <p>Budget</p>
+                                                 <span class="h2"><%= dollarUS.format(data[0].amount) %></span>
+                                               
+                                            </div>
+                                        </div>
+                                    </div>
+                                  
+                                    <div class="mb-3">
+                                        <div id="contact-container">
+                                          <div class="contact-input">
+                                            <div class="row mb-3">
+                                            <div class="col-md-6">
+                                            <label for="name1">Budget Line Name:</label>
+                                            <input type="text"  class="form-control" name="budget_name1" required>
+                                          </div>
+                                          <div class="col-md-6">
+                                            <label for="budget1">Budget Line Amount:</label>
+                                            <input type="number"  class="form-control" name="budget1" required>
+                                          </div>
+                                          </div>
+                                            <div class="row">
+                                              <div class="col-md-6"><button type="button" style="width: 50%;" onclick="addContact()">+</button></div>
+                                            
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+
+            </div>
+            <div class=" modal-footer"="">
+                                    </button><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                               
+                            </div>
+                        </form>
+                        </div>
+                    </div>
+                </div>
+                <% } %>
+            </div>
+        </div>
+        <div class="card" style="width: 100%;">
+            <div class="card-header border-0">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <h3 class="mb-0"></h3>
+                    </div>
+                    <div class="col text-right">
+                      
+                <button  data-toggle="modal" data-target="#exampleModalExport1" class="btn btn-sm btn-primary">Export Budget Expenditure</button>
+                <button  data-toggle="modal" data-target="#exampleModalExport2" class="btn btn-sm btn-primary">Export Line Budget</button>
+
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive">
+              <% if (data.length > 0) { %>
+                <table class="table align-items-center table-flush">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">DESCRIPTION</th>
+                            <th scope="col">BUDGET</th>
+                            <th scope="col">ACTUAL</th>
+                            <th scope="col">VARIANCE</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for (let dat of data1) { %>
+                            <tr>
+                                <th scope="row"><%= dat.budget_name %></th>
+                                <td>
+                                    <%= dollarUS.format(dat.budget) %></td>
+                                <td>
+                                    <%= dollarUS.format(dat.actual) %></td>
+                                <td>
+                                    <%= dollarUS.format(dat.budget - dat.actual) %></td>
+                                <td class="table-actions">
+                                    <button class="table-action btn btn-sm btn-block btn-neutral expandBtn"  >
+                                       View Expenses
+                                    </button>
+                                    <% if(user_role == 'Admin') { %>
+                                    <button class="table-action btn btn-sm btn-block btn-danger" onclick="deleteBudgetItem('<%= dat.budget_id %>', '<%= dat.budget %>','<%= dat.budget_name %>')"  data-toggle="modal" data-target="#exampleModal6" data-original-title="Edit product">
+                                      <i class="fas fa-trash"></i>
+                                  </button>
+                                  <button class="table-action btn btn-sm btn-block btn-success" onclick="editBudgetItem('<%= dat.budget_id %>', '<%= dat.budget %>','<%= dat.budget_name %>')"  data-toggle="modal" data-target="#exampleModal7b" data-original-title="Edit product">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                  <% } %>
+                                    <button class="table-action btn btn-sm btn-block btn-neutral"  onclick="expenditure('<%= dat.budget %>','<%= dat.budget_id %>','<%= dat.actual %>')" data-toggle="modal" data-target="#exampleModal3" data-original-title="Edit product">
+                                        Add Expense
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr class="extraRow" style="display:none">
+                                <td colspan="5"> <div class="row">
+                                    <div class="col-md-12">
+                                      <table class="table table-bordered">
+                                        <thead>
+                                          <tr>
+                                            <th>Date</th>
+                                            <th>Description</th>
+                                            <th>Expense</th>
+                                            <th></th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% for (let da of dat.expenditure) { %>
+                                          <tr>
+                                            <td><%= moment(da.expenditure_date).format('Do MMMM, YYYY') %></td>
+                                            <td><%= da.expenditure_desc %></td>
+                                            <td><%= dollarUS.format(da.expenditure) %></td>
+                                            <td class="table-actions">
+                                              <% if(user_role == 'Admin') { %>
+                                              <button class="table-action btn btn-sm btn-block btn-danger" onclick="deleteBudgetItem1('<%= dat.budget_id %>', '<%= da.expenditure %>','<%= da.expenditure_desc %>','<%= da.expenditure %>')"  data-toggle="modal" data-target="#exampleModal7" data-original-title="Edit product">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                            <% } %>
+                                              <button class="table-action btn btn-sm btn-block btn-neutral"   onclick="editExpenditure('<%= dat.budget_id %>', '<%= da.expenditure_desc %>','<%= da.expenditure %>')"
+                                               data-toggle="modal" data-target="#exampleModal5" data-original-title="Edit product">
+                                                  <i class="fas fa-edit"></i>
+                                              </button>
+                                          </td>
+                                          </tr>
+                                          
+                                        
+                                            <% } %>
+                                        
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  </div></td>
+                            </tr>
+                          <% } %>
+                    </tbody>
+                </table>
+                <% } else { %>
+                  <div style="padding: auto;margin:auto;position: relative;left:40%"><p>No Budget Items to show!</p></div>
+                  
+                <% } %> 
+            </div>
+        </div>
+        <div class="row removable">
+            <div class="col-12">
+                <div class="card-deck">
+
+
+                    <!-- Username card -->
+
+                </div>
+            </div>
+        </div>
+        <nav aria-label="..." class="">
+            <ul class="pagination">
+                <li class="page-item">
+                    
+                    <% if (page > 1) { %>
+                      <a class="page-link" href="/budget?page=<%= page - 1 %>">
+                        <i class="fa fa-angle-left"></i>
+                        <span class="sr-only">Previous</span>
+                      </a>
+                  <% } %>
+                </li>
+                <li class="page-item">
+                   
+                    <% if (data1.length === 10) { %>
+                      <a class="page-link" href="/budget?page=<%= page + 1 %>">
+                        <i class="fa fa-angle-right"></i>
+                        <span class="sr-only">Next</span>
+                      </a>
+                  <% } %>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <form action='add-budget' method="POST">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add Budget</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">X</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                  <div class="mb-3">
+                    <label for="amount" class="form-label"
+                      >Amount</label
+                    >
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="amount"
+                      name="amount"
+                      required
+                    />
+                </div>              
+                <div class="mb-3">
+                    <label for="start_date" class="form-label"
+                      >Start Date</label
+                    >
+                    <input
+                      type="date"
+                      class="form-control"
+                      id="start_date"
+                      name="start_date"
+                      required
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <label for="end_date" class="form-label">End Date</label>
+                    <input
+                      type="date"
+                      class="form-control"
+                      id="end_date"
+                      name="end_date"
+                      required
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <label for="notes" class="form-label">Notes</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="notes"
+                      name="notes"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form> 
+            </div>
+        </div>
+    </div>
+    <% if(data[0]) { %>
+    <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <form action='edit-budget?id=<%= data[0].budget_id %>' method="POST">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Budget</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">X</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                  <div class="mb-3">
+                    <label for="edit-amount" class="form-label"
+                      >Amount</label
+                    >
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="edit-amount"
+                      name="edit_amount"
+                      required
+                    />
+                </div>              
+                <div class="mb-3">
+                    <label for="edit-start_date" class="form-label"
+                      >Start Date</label
+                    >
+                    <input
+                      type="date"
+                      class="form-control"
+                      id="edit-start_date"
+                      name="edit_start_date"
+                      required
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <label for="edit-end_date" class="form-label">End Date</label>
+                    <input
+                      type="date"
+                      class="form-control"
+                      id="edit-end_date"
+                      name="edit_end_date"
+                      required
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <label for="edit-notes" class="form-label">Notes</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="edit-notes"
+                      name="edit_notes"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form> 
+            </div>
+        </div>
+    </div>
+    <% } %>
+    <% if(data[0]) { %>
+        <div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <form action='add-expenditure' method="POST">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Add Expenditure</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">X</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="expenditure_date" class="form-label"
+                              >Expenditure Date</label
+                            >
+                            <input
+                              type="date"
+                              class="form-control"
+                              id="expenditure_date"
+                              name="expenditure_date"
+                              required
+                            />
+                        </div>  
+                        <div class="mb-3">
+                            <label for="expenditure_desc" class="form-label"
+                              >Expenditure Description</label
+                            >
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="expenditure_desc"
+                              name="expenditure_desc"
+                              required
+                            />
+                        </div>  
+                      <div class="mb-3">
+                        <label for="expenditure" class="form-label"
+                          >Amount</label
+                        >
+                        <input
+                          type="number"
+                          class="form-control"
+                          id="expenditure"
+                          name="expenditure"
+                          required
+                        />
+                    </div>  
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form> 
+                </div>
+            </div>
+        </div>
+        <% } %>
+        <div class="modal fade" id="exampleModal4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Statement</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">X</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                              <table class="table table-bordered">
+                                <thead>
+                                  <tr>
+                                    <th>Date</th>
+                                    <th>Description</th>
+                                    <th>Expense</th>
+                                    <th>Balance</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                    <% for (let dat of budget_statement) { %>
+                                  <tr>
+                                    <td><%= moment(dat.expenditure_date).format('Do MMMM, YYYY') %></td>
+                                    <td><%= dat.expenditure_desc %></td>
+                                    <td> <%= dollarUS.format(dat.expenditure) %></td>
+                                    <td> <%= dollarUS.format(dat.balance) %></td>
+                                  </tr>
+                                 
+                                    <% } %>
+                                
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Print</button>
+                    </div>
+                </div>
+            </div>
+        </div>    
+        <div class="modal fade" id="exampleModal5" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Edit Expenditure</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">X</span>
+                      </button>
+                  </div>
+                  <div class="modal-body">
+                     
+                  </div>
+                
+              </div>
+          </div>
+      </div>    
+      <div class="modal fade" id="exampleModal6" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Delete Budget Line Item</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">X</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                   
+                </div>
+              
+            </div>
+        </div>
+    </div>    
+    <div class="modal fade" id="exampleModal7" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Delete Budget Line Item Expense</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">X</span>
+                  </button>
+              </div>
+              <div class="modal-body">
+                 
+              </div>
+            
+          </div>
+      </div>
+  </div>   
+  <div class="modal fade" id="exampleModal7b" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit Budget Line Item Expense</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">X</span>
+                </button>
+            </div>
+            <div class="modal-body">
+               
+            </div>
+          
+        </div>
+    </div>
+</div>  
+  <div class="modal fade" id="exampleModalExport1"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <form action="/download5" method="get">
+        <div class="modal-content" >
+            <div class="modal-header">
+              
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="export_type" class="form-label"
+                      >Export As</label
+                    >
+                    <select
+                      class="form-select"
+                      id="export_type"
+                      name="export_type"
+                      required
+                    >
+                      <option value="pdf">PDF</option>
+                      <option value="excel">Excel</option>
+                    </select>
+                  </div>
+                  <div class="mb-3">
+                    <label for="expenditure_date" class="form-label"
+                      >Starting Date</label
+                    >
+                    <input
+                      type="date"
+                      class="form-control"
+                      id="expenditure_date"
+                      name="expenditure_date"
+                      required
+                    />
+                  </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-secondary">Export</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        </form>
+    </div>
+</div>  
+<div class="modal fade" id="exampleModalExport2"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+      <form action="/download4" method="get">
+      <div class="modal-content" >
+          <div class="modal-header">
+            
+          </div>
+          <div class="modal-body">
+              <div class="mb-3">
+                  <label for="export_type" class="form-label"
+                    >Export As</label
+                  >
+                  <select
+                    class="form-select"
+                    id="export_type"
+                    name="export_type"
+                    required
+                  >
+                    <option value="pdf">PDF</option>
+                    <option value="excel">Excel</option>
+                  </select>
+                </div>
+          </div>
+          <div class="modal-footer">
+              <button type="submit" class="btn btn-secondary">Export</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+      </div>
+      </form>
+  </div>
+</div>  

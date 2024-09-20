@@ -1,0 +1,133 @@
+
+<div class="container-fluid pt-3">
+    <%  for (let error of errors) { %>
+        <div class="alert alert-danger" role="alert">
+        <%= error.message %>
+       </div>
+         <% } %>
+         <% if(message.success){ %>
+           <div class="alert alert-success"  role="alert">
+               <%= message.success %>
+           </div>
+           <% } %>
+    <div class="row mt-3 mb-4 mx-0 removable">
+        
+    </div>
+   
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal2">
+        Add New User
+     </button>
+    <div class="row removable">
+        <div class="col-lg-12">
+        
+                <div class="card">
+                    <table class="table align-items-center table-flush">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Role</th>
+                                <th scope="col">Activated</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if (data.length > 0) { %>
+                                <% for (let dat of data) { %>
+                            <tr>
+                                
+                                <th scope="row">
+                                    <%= dat.id %>
+                                </th>
+                                <td><%= dat.name %></td>
+                                <td>
+                                    <%= dat.email %></td>
+                                <td>
+                                    <%= dat.role %></td>
+                                    <td>
+                                        <%= dat.activated %></td>
+                                    <td class="table-actions">
+                                        <button class="table-action btn btn-sm btn-block btn-neutral" onclick="editUser(' <%= dat.id %>' , '<%= dat.name %>', '<%= dat.email %>')"   data-toggle="modal" data-target="#exampleModal1" data-original-title="Edit product">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </td>
+                            </tr>
+                            <% } %>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+ 
+    <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+             
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit User</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">X</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+         
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <form action='/new_user' method="POST">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Create a New User</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">X</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                  <div class="mb-3">
+                    <label for="user_name" class="form-label"
+                      >Name</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="user_name"
+                      name="user_name"
+                      required
+                    />
+                </div>              
+                <div class="mb-3">
+                    <label for="email" class="form-label"
+                      >Email</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="email"
+                      name="email"
+                      required
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <label for="role" class="form-label">Role</label>
+                    <select class="form-select" id="role" name="role" required style="font-weight: bold; font-size: 18px;">
+                        <option value=""></option>
+                        <option value="Admin">Admin</option>
+                        <option value="Legal Staff">Legal Staff</option>
+                        <option value="Viewer">Viewer</option>
+                      </select>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form> 
+            </div>
+        </div>
+    </div>
